@@ -6,10 +6,12 @@ import OpenUILang
 public struct OpenUIRenderer: View {
     let node: ElementNode?
     let library: ComponentLibrary
+    let actionHandler: ((String, [String: Any]) -> Void)?
 
-    public init(node: ElementNode?, library: ComponentLibrary) {
+    public init(node: ElementNode?, library: ComponentLibrary, actionHandler: ((String, [String: Any]) -> Void)? = nil) {
         self.node = node
         self.library = library
+        self.actionHandler = actionHandler
     }
     
     public var body: some View {
@@ -35,8 +37,11 @@ public struct OpenUIRenderer: View {
             return AnyView(Text((node.props["text"] as? String) ?? ""))
         case "Button":
             return AnyView(Button(action: {
-                // Action handling
-                print("Button clicked: \(node.props["label"] as? String ?? "")")
+                if let action = node.props["action"] as? String {
+                    actionHandler?(action, node.props)
+                } else {
+                    print("Button clicked: \(node.props["label"] as? String ?? "")")
+                }
             }) {
                 Text((node.props["label"] as? String) ?? "Button")
             })

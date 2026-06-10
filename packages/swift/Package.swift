@@ -31,6 +31,9 @@ let package = Package(
             dependencies: ["OpenUILang"]),
         .executableTarget(
             name: "SwiftUIChat",
-            dependencies: ["OpenUILang", "OpenUISwiftUI"])
+            dependencies: ["OpenUILang", "OpenUISwiftUI"]),
+        .testTarget(
+            name: "OpenUILangTests",
+            dependencies: ["OpenUILang"])
     ]
 )
